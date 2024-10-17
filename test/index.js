@@ -1,7 +1,10 @@
 import {} from './../src/index.js'
 
 const allLists =  [...document.getElementsByTagName('list-m')]
-
+const descriptions = [
+    'test with inner content',
+    'test with json file',
+]
 const allExpected = [
     'name1,1,name2,2,name3,3',
     'fname1,1,fname2,2,fname3,3'
@@ -17,10 +20,16 @@ function run() {
             ).join(',')
         }).join(',')
     )
-    console.log(allObserved)
 
+    
     for (const [index, expected] of allExpected.entries() ) {
         const isOk = expected === allObserved[index]
-        console.log(isOk)
+        add(index, descriptions[index], isOk)
     }
+}
+function add(index, message, isOk) {
+    const p = document.createElement("p")
+    const ok = isOk? 'OK': 'NOK'
+    p.textContent = `${index+1}. ${ok} - ${message}`
+    results.append(p)
 }
