@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tests list-m</title>
+    <script type="importmap">
+        {
+            "imports": {
+                "dry-html": "./../node_modules/dry-html/esm-min.js",
+                "fetch": "./../node_modules/@webreflection/fetch/es.js"
+            }
+        }
+    </script>
+    <script type="module" src="./index.js"></script>
+</head>
+<body>
+    <template id="info-m">
+        <div>{t-name}</div>
+        <div>{t-id}</div>
+    </template>
+    <list-m template="info-m">
+        name,id
+        name1
+        1
+        name2
+        2
+        name3
+        3
+    </list-m>
+    <list-m
+        template="info-m"
+        source="./data.json"
+    ></list-m>
+</body>
+</html>
