@@ -8,7 +8,7 @@
         {
             "imports": {
                 "dry-html": "./../node_modules/dry-html/esm-min.js",
-                "fetch": "./../node_modules/@webreflection/fetch/es.js"
+                "@webreflection/fetch": "./../node_modules/@webreflection/fetch/es.js"
             }
         }
     </script>
@@ -23,18 +23,17 @@
         <div>{t-name}</div>
         <div>{t-id}</div>
     </template>
-    <list-m template="info-m">
-        name,id
-        name1
-        1
-        name2
-        2
-        name3
-        3
-    </list-m>
     <list-m
         template="info-m"
         source="./data.json"
+    ></list-m>
+    <list-m
+        template="info-m"
+        source="./foo.json"
+    ></list-m>
+    <list-m
+        template="info-m"
+        source="./data.txt"
     ></list-m>
 </body>
 </html>

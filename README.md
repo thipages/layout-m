@@ -16,17 +16,7 @@
     template="a-template"
     source="./data.json"
   ></list-m>
-<!-- OR declaring data within list-m content with header row being a list of ordered property (without the t- prefix) followed by a list of data groups -->
- <list-m template="a-template">
-    data1,data2
-
-    data11
-    data12
-
-    data21
-    data22
-</list-m>
-<!-- output for both will be the same when using data.json below -->
+<!-- output using data.json below -->
  <list-m>
     <a-template t-data1="data11" t-data2="data12"></a-template>
     <a-template t-data1="data21" t-data2="data22"></a-template>

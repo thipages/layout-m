@@ -1,5 +1,5 @@
 import {defineCustomElement} from 'dry-html'
-import fetch from 'fetch'
+import fetch from '@webreflection/fetch'
 customElements.define(
     'list-m', class extends HTMLElement {
         constructor() {
@@ -34,36 +34,15 @@ function allAttrs(props) {
 }
 async function init(that) {
     const source = that.getAttribute('source')
-    const data =  !source
-        ? parseContent(that.textContent)
-        : await getSourceContent(source)
+    if (!source) return
+    const data = await getSourceContent(source)
+    if (!data) return 
     that.data = data
 }
-function parseContent(initialContent) {
-    let header, fieldNum, propCount = 0, dataCount = 0, data = [{}]
-    for (const line of initialContent.split('\n')) {
-        const trimmedLine = extendedTrim(line)
-        if (trimmedLine.replace(/\s/g, '') !=='') {
-            if (!header) {
-                header = line.split(',').map(v => extendedTrim(v))
-                fieldNum = header.length
-            } else {
-                if (propCount === fieldNum) {
-                    propCount = 1
-                    dataCount++
-                    data.push({[header[0]]: trimmedLine})
-                } else {
-                    propCount++
-                    data[dataCount][header[propCount-1]]= trimmedLine
-                }
-            }
-        }
+async function getSourceContent(source) {
+    try {
+        return await fetch(source).json()
+    } catch (e) {
+        return false
     }
-    return data
-}
-function getSourceContent(source) {
-    return fetch(source).json()
-}
-function extendedTrim(s) {
-    return s.replace(/^\s+|\s+$/g, '')
 }

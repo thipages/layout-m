@@ -2,12 +2,14 @@ import {} from './../src/index.js'
 
 const allLists =  [...document.getElementsByTagName('list-m')]
 const descriptions = [
-    'test with inner content',
     'test with json file',
+    'test with non existing file',
+    'test with text file'
 ]
 const allExpected = [
-    'name1,1,name2,2,name3,3',
-    'fname1,1,fname2,2,fname3,3'
+    'fname1,1,fname2,2,fname3,3',
+    '',
+    ''
 ]
 setTimeout(run, 1000)
 function run() {
@@ -19,9 +21,7 @@ function run() {
                 }
             ).join(',')
         }).join(',')
-    )
-
-    
+    )    
     for (const [index, expected] of allExpected.entries() ) {
         const isOk = expected === allObserved[index]
         add(index, descriptions[index], isOk)
