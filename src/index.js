@@ -44,7 +44,6 @@ async function getSourceContent(source) {
     if (el) {
         try {
             const data = JSON.parse(el.textContent)
-            console.log('data', data)
             return data
         } catch (e) {
             return false
