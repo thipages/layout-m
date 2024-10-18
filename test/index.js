@@ -4,12 +4,14 @@ const allLists =  [...document.getElementsByTagName('list-m')]
 const descriptions = [
     'test with json file',
     'test with non existing file',
-    'test with text file'
+    'test with text file',
+    'test with embedded json'
 ]
 const allExpected = [
     'fname1,1,fname2,2,fname3,3',
     '',
-    ''
+    '',
+    'ename1,1,ename2,2'
 ]
 setTimeout(run, 1000)
 function run() {

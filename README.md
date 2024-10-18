@@ -29,3 +29,23 @@ data.json
     {"data2": "data21", "data2":"data22"}
 ]
 ```
+### Source can be also an embedded json
+
+```html
+  <script type="application/json" id="embedded-data">
+      [
+          {
+              "id": 1,
+              "name": "ename1"
+          },
+          {
+              "id": 2,
+              "name": "ename2"
+          }
+      ]
+  </script>
+ <list-m
+    template="a-template"
+    source="embedded-data"
+ ></list-m>
+```

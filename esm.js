@@ -203,9 +203,22 @@ async function init(that) {
     that.data = data;
 }
 async function getSourceContent(source) {
-    try {
-        return await fetch$1(source).json()
-    } catch (e) {
-        return false
+    const el = document.getElementById(source);
+    if (el) {
+        try {
+            const data = JSON.parse(el.textContent);
+            console.log('data', data);
+            return data
+        } catch (e) {
+            return false
+        }
+        
+    } else {
+        try {
+            return await fetch$1(source).json()
+        } catch (e) {
+            return false
+        }
     }
+
 }

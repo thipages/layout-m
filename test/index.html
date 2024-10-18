@@ -15,6 +15,18 @@
     <script type="module" src="./index.js"></script>
 </head>
 <body>
+    <script type="application/json" id="embedded-data">
+        [
+            {
+                "id": 1,
+                "name": "ename1"
+            },
+            {
+                "id": 2,
+                "name": "ename2"
+            }
+        ]
+    </script>
     <h1>list-m Tests</h1>
     <div id="results">
 
@@ -34,6 +46,10 @@
     <list-m
         template="info-m"
         source="./data.txt"
+    ></list-m>
+    <list-m
+        template="info-m"
+        source="embedded-data"
     ></list-m>
 </body>
 </html>
