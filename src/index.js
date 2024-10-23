@@ -15,10 +15,6 @@ customElements.define(
                 defineCustomElement(tag)
             } catch (e) {}
             this.innerHTML = this.createList(tag, d)
-            const level = this.getAttribute('level')
-            if (level === 'up') {
-                this.replaceWith(...this.children)
-            }
         }
         createList(tag, d) {
             return d.map (
