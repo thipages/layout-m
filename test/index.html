@@ -4,14 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>list-m Tests</title>
-    <script type="importmap">
+    <!--script type="importmap">
         {
             "imports": {
                 "dry-html": "./../node_modules/dry-html/esm-min.js",
-                "@webreflection/fetch": "./../node_modules/@webreflection/fetch/es.js"
+                "@webreflection/fetch": "./../node_modules/@webreflection/fetch/es.js",
+                "html-parsed-element": "./../node_modules/html-parsed-element/esm/index.js"
             }
         }
-    </script>
+    </script-->
+    <script
+        data-imports="dry-html @webreflection/fetch html-parsed-element"
+        src="https://esm.run/data-imports"
+    ></script>
     <script type="module" src="./index.js"></script>
 </head>
 <body>
@@ -54,7 +59,7 @@
     <list-m
         template="info-m"
         source="embedded-data"
-        level="up"
+        level-up
     ></list-m>
 </body>
 </html>

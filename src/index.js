@@ -1,13 +1,18 @@
 import {defineCustomElement} from 'dry-html'
 import fetch from '@webreflection/fetch'
+import HTMLParsedElement from 'html-parsed-element'
 customElements.define(
-    'list-m', class extends HTMLElement {
+    'list-m', class extends HTMLParsedElement {
         constructor() {
             super()
         }
-        connectedCallback() {
+        parsedCallback() {
             this.style.display = 'block'
             init(this)
+            // DEV: need to add setTimeout otherwise the node dies with its children
+            if (this.hasAttribute('level-up')) {
+                setTimeout(() => this.replaceWith(...this.children))
+            }
         }
         set data(d) {
             const tag = this.getAttribute('template')

@@ -49,3 +49,16 @@ data.json
     source="embedded-data"
  ></list-m>
 ```
+
+## level-up attribute
+
+Boolean `level-up` attribute allows to replace a freshly (ghost) `list-m` custom-element by its children allowing to layout those children with former `list-m` siblings
+
+```javascript
+ <list-m
+    template="a-template"
+    source="embedded-data"
+    level-up
+ ></list-m>
+```
+
