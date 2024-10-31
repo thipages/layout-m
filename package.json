@@ -22,7 +22,7 @@
   "homepage": "https://github.com/thipages/layout-m#readme",
   "dependencies": {
     "@webreflection/fetch": "^0.1.5",
-    "@titsoft/dry-html": "^0.3.2",
+    "@titsoft/dry-html": "^0.4.0",
     "html-parsed-element": "^0.4.1"
   },
   "devDependencies": {
