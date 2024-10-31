@@ -1,4 +1,4 @@
-import {defineCustomElement} from 'dry-html'
+import {defineCustomElement} from '@titsoft/dry-html'
 import fetch from '@webreflection/fetch'
 import HTMLParsedElement from 'html-parsed-element'
 customElements.define(

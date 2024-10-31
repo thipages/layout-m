@@ -3,18 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>list-m Tests</title>
-    <!--script type="importmap">
-        {
-            "imports": {
-                "dry-html": "./../node_modules/dry-html/esm-min.js",
-                "@webreflection/fetch": "./../node_modules/@webreflection/fetch/es.js",
-                "html-parsed-element": "./../node_modules/html-parsed-element/esm/index.js"
-            }
-        }
-    </script-->
+    <title>layout-m Tests</title>
     <script
-        data-imports="dry-html @webreflection/fetch html-parsed-element"
+        data-imports="@titsoft/dry-html @webreflection/fetch html-parsed-element"
         src="https://esm.run/data-imports"
     ></script>
     <script type="module" src="./index.js"></script>
@@ -32,7 +23,7 @@
             }
         ]
     </script>
-    <h1>list-m Tests</h1>
+    <h1>layout-m Tests</h1>
     <div id="results">
 
     </div>
@@ -40,26 +31,26 @@
         <div>{t-name}</div>
         <div>{t-id}</div>
     </template>
-    <list-m
+    <layout-m
         template="info-m"
         source="./data.json"
-    ></list-m>
-    <list-m
+    ></layout-m>
+    <layout-m
         template="info-m"
         source="./foo.json"
-    ></list-m>
-    <list-m
+    ></layout-m>
+    <layout-m
         template="info-m"
         source="./data.txt"
-    ></list-m>
-    <list-m
+    ></layout-m>
+    <layout-m
         template="info-m"
         source="embedded-data"
-    ></list-m>
-    <list-m
+    ></layout-m>
+    <layout-m
         template="info-m"
         source="embedded-data"
         level-up
-    ></list-m>
+    ></layout-m>
 </body>
 </html>

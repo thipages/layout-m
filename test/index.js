@@ -1,6 +1,6 @@
 import {} from './../src/index.js'
 
-const allLists =  [...document.getElementsByTagName('list-m')]
+const allLists =  [...document.getElementsByTagName('layout-m')]
 const descriptions = [
     'test with json file',
     'test with non existing file',
