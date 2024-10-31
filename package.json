@@ -1,6 +1,6 @@
 {
-  "name": "list-m",
-  "version": "0.2.0",
+  "name": "@titsoft/layout-m",
+  "version": "0.3.0",
   "description": "",
   "main": "src/index.js",
   "type": "module",
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/thipages/list-m.git"
+    "url": "git+https://github.com/thipages/layout-m.git"
   },
   "author": "Thierry Pagès",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/thipages/list-m/issues"
+    "url": "https://github.com/thipages/layout-m/issues"
   },
-  "homepage": "https://github.com/thipages/list-m#readme",
+  "homepage": "https://github.com/thipages/layout-m#readme",
   "dependencies": {
     "@webreflection/fetch": "^0.1.5",
     "dry-html": "^0.3.2",

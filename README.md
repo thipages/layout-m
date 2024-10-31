@@ -1,6 +1,6 @@
-# list-m
+# layout-m
 
-`list-m` is a custom element which allows to use [dry-html](https://github.com/thipages/dry-html) in a more compact syntax for managing list of "instances" of one `dry-html` template.
+`layout-m` is a custom element which allows to use [dry-html](https://github.com/thipages/dry-html) in a more compact syntax for managing list of "instances" of one `dry-html` template.
 
 ## Example
 
@@ -12,15 +12,15 @@
     </div>
 </template>
  <!-- Declaration via a template attribute and a (json) source attribute -->
-  <list-m
+  <layout-m
     template="a-template"
     source="./data.json"
-  ></list-m>
+  ></layout-m>
 <!-- output using data.json below -->
- <list-m>
+ <layout-m>
     <a-template t-data1="data11" t-data2="data12"></a-template>
     <a-template t-data1="data21" t-data2="data22"></a-template>
- </list-m>
+ </layout-m>
 ```
 data.json
 ```json
@@ -44,21 +44,21 @@ data.json
           }
       ]
   </script>
- <list-m
+ <layout-m
     template="a-template"
     source="embedded-data"
- ></list-m>
+ ></layout-m>
 ```
 
 ## level-up attribute
 
-Boolean `level-up` attribute allows to replace a freshly (ghost) `list-m` custom-element by its children allowing to layout those children with former `list-m` siblings
+Boolean `level-up` attribute allows to replace a freshly (ghost) `layout-m` custom-element by its children allowing to layout those children with former `layout-m` siblings
 
 ```javascript
- <list-m
+ <layout-m
     template="a-template"
     source="embedded-data"
     level-up
- ></list-m>
+ ></layout-m>
 ```
 

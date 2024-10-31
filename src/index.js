@@ -2,7 +2,7 @@ import {defineCustomElement} from 'dry-html'
 import fetch from '@webreflection/fetch'
 import HTMLParsedElement from 'html-parsed-element'
 customElements.define(
-    'list-m', class extends HTMLParsedElement {
+    'layout-m', class extends HTMLParsedElement {
         constructor() {
             super()
         }
