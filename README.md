@@ -2,7 +2,7 @@
 
  `layout-m` is a custom element for grouping `template` instances
  - to layout them
- - to be part of its parent layout with `level-up` attribute
+ - to let its children to be part of its parent layout with `level-up` attribute
 
 Templates follow the rules from [@titsoft/dry-html](https://github.com/thipages/dry-html)
 
