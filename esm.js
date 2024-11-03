@@ -251,7 +251,7 @@ customElements.define(
         constructor() {
             super();
         }
-        async parsedCallback() {
+        parsedCallback() {
             init(this).then (
                 () => {
                     if (this.hasAttribute('level-up')) {
