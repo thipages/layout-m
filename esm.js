@@ -19,6 +19,7 @@ const pattern = /\{(?<content>t-\w[\-\w]+)\}/;
  */
 function setup(templateId) {
     const template = document.getElementById(templateId);
+    const tClass = template.getAttribute('class');
     const refClone = template.content.cloneNode(true);
     const refData = computeAttributes(refClone);
     computeInnerText(refClone, refData);
@@ -28,7 +29,7 @@ function setup(templateId) {
             attributes.add(map);
         }
     }
-    return {refClone, refData, attributes:[...attributes]}
+    return {refClone, refData, attributes:[...attributes], tClass}
 }
 function checkTemplateIdValidity(templateId) {
     if (!templateId) return false
@@ -37,7 +38,7 @@ function checkTemplateIdValidity(templateId) {
 }
 function defineCustomElement(templateId) {
     if (!checkTemplateIdValidity(templateId)) return
-    const {refClone, refData} = setup(templateId);
+    const {refClone, refData, tClass} = setup(templateId);
     //
     customElements.define(templateId,
         class extends HTMLElement {
@@ -45,11 +46,14 @@ function defineCustomElement(templateId) {
                 super();
             }
             connectedCallback() {
+                // Avoid multiple connection when this element is deconnected
+                if (this.connected) return
+                this.connected = true;
                 this.style.display = 'block';
+                if (!this.hasAttribute('class')) this.setAttribute('class', tClass);
                 this.tRefs = structuredClone(refData);
                 this.append(refClone.cloneNode(true));
-                setData(this);        
-                console.log('connected');       
+                setData(this);     
             }
         }
     );
@@ -247,20 +251,23 @@ customElements.define(
         constructor() {
             super();
         }
-        parsedCallback() {
-            this.style.display = 'block';
-            init(this);
-            // DEV: need to add setTimeout otherwise the node dies with its children
-            if (this.hasAttribute('level-up')) {
-                setTimeout(() => this.replaceWith(...this.children));
-            }
+        async parsedCallback() {
+            init(this).then (
+                () => {
+                    if (this.hasAttribute('level-up')) {
+                        this.replaceWith(...this.children);
+                    }
+                }
+            );
         }
         set data(d) {
             const tag = this.getAttribute('template');
-            try {
-                defineCustomElement(tag);
-            } catch (e) {}
-            this.innerHTML = this.createList(tag, d);
+            if (tag) {
+                try {
+                    defineCustomElement(tag);
+                } catch (e) {}
+                this.innerHTML = this.createList(tag, d);
+            }
         }
         createList(tag, d) {
             return d.map (
@@ -282,22 +289,23 @@ async function init(that) {
     const source = that.getAttribute('source');
     if (!source) return
     const data = await getSourceContent(source);
-    if (!data) return 
+    if (!data) return
     that.data = data;
 }
 async function getSourceContent(source) {
-    const el = document.getElementById(source);
-    if (el) {
-        try {
-            const data = JSON.parse(el.textContent);
-            return data
-        } catch (e) {
-            return false
+    if (source.substring(0,1) === '#') {
+        const el = document.getElementById(source.substring(1));
+        if (el) {
+            try {
+                const data = JSON.parse(el.textContent);
+                return data
+            } catch (e) {
+                return false
+            }
         }
-        
     } else {
         try {
-            return await fetch$1(source).json()
+            return fetch$1(source).json()
         } catch (e) {
             return false
         }

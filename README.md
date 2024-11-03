@@ -1,63 +1,54 @@
 # layout-m
 
-`layout-m` is a custom element which allows to use [dry-html](https://github.com/thipages/dry-html) in a more compact syntax for managing list of "instances" of one `dry-html` template.
+ `layout-m` is a custom element for grouping `template` instances
+ - to layout them
+ - to be part of its parent layout with `level-up` attribute
+
+Templates follow the rules from [@titsoft/dry-html](https://github.com/thipages/dry-html)
 
 ## Example
 
 ```html
-<template id="a-template">
-    <div>
-        <div>{t-data1}</div>
-        <div>{t-data2}</div>
+<template id="a-card">
+  <div class="card">
+    <img src="https://placehold.jp/200x200.png" alt="Avatar">
+    <div class="container">
+        <p><b>{t-name}</b></p> 
+        <p>{t-job}</p> 
     </div>
+  </div>
 </template>
  <!-- Declaration via a template attribute and a (json) source attribute -->
+  <!-- Source can be
+   - an url to be fetched, eg: ./data.json
+   - an id referencing an application/json script, eg: #data
+   -->
   <layout-m
-    template="a-template"
-    source="./data.json"
+    template="a-card"
+    source="#data"
   ></layout-m>
-<!-- output using data.json below -->
- <layout-m>
-    <a-template t-data1="data11" t-data2="data12"></a-template>
-    <a-template t-data1="data21" t-data2="data22"></a-template>
- </layout-m>
-```
-data.json
-```json
-[
-    {"data1": "data11", "data2":"data12"},
-    {"data2": "data21", "data2":"data22"}
-]
-```
-### Source can be also an embedded json
-
-```html
-  <script type="application/json" id="embedded-data">
-      [
-          {
-              "id": 1,
-              "name": "ename1"
-          },
-          {
-              "id": 2,
-              "name": "ename2"
-          }
-      ]
-  </script>
- <layout-m
-    template="a-template"
-    source="embedded-data"
- ></layout-m>
+<script type="application/json" id="data">
+  [
+    {
+      "name": "Leila Sunflower",
+      "job": "Soil Mender"
+    },
+    {
+      "name": "John Green",
+      "job": "Industry Mender"
+    }
+  ]
+</script>
 ```
 
 ## level-up attribute
 
-Boolean `level-up` attribute allows to replace a freshly (ghost) `layout-m` custom-element by its children allowing to layout those children with former `layout-m` siblings
+Boolean `level-up` attribute allows to replace a transient `layout-m` custom-element by its children allowing to layout those children with former `layout-m` siblings
 
 ```javascript
  <layout-m
     template="a-template"
-    source="embedded-data"
+    source="#data"
     level-up
  ></layout-m>
 ```

@@ -1,6 +1,6 @@
 {
   "name": "@titsoft/layout-m",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "",
   "main": "src/index.js",
   "type": "module",
@@ -22,7 +22,7 @@
   "homepage": "https://github.com/thipages/layout-m#readme",
   "dependencies": {
     "@webreflection/fetch": "^0.1.5",
-    "@titsoft/dry-html": "^0.4.0",
+    "@titsoft/dry-html": "^0.4.3",
     "html-parsed-element": "^0.4.1"
   },
   "devDependencies": {

@@ -8,9 +8,15 @@
         data-imports="@titsoft/dry-html @webreflection/fetch html-parsed-element"
         src="https://esm.run/data-imports"
     ></script>
-    <script type="module" src="./index.js"></script>
 </head>
 <body>
+    <script type="module">
+        import {} from './../../src/index.js'
+    </script>
+    <template id="info-m">
+        <div>{t-name}</div>
+        <div>{t-id}</div>
+    </template>
     <script type="application/json" id="embedded-data">
         [
             {
@@ -23,30 +29,11 @@
             }
         ]
     </script>
-    <h1>layout-m Tests</h1>
-    <div id="results">
-
-    </div>
-    <template id="info-m">
-        <div>{t-name}</div>
-        <div>{t-id}</div>
-    </template>
-    <layout-m
-        template="info-m"
-        source="./data.json"
-    ></layout-m>
-    <layout-m
-        template="info-m"
-        source="./foo.json"
-    ></layout-m>
-    <layout-m
-        template="info-m"
-        source="./data.txt"
-    ></layout-m>
     <layout-m
         template="info-m"
         source="#embedded-data"
     ></layout-m>
+    <hr />
     <layout-m
         template="info-m"
         source="#embedded-data"
