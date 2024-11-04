@@ -1,3 +1,111 @@
+/*! (c) Andrea Giammarchi - ISC */
+const HTMLParsedElement = (() => {
+  const DCL = 'DOMContentLoaded';
+  const init = new WeakMap;
+  const queue = [];
+  const isParsed = el => {
+    do {
+      if (el.nextSibling)
+        return true;
+    } while (el = el.parentNode);
+    return false;
+  };
+  const upgrade = () => {
+    queue.splice(0).forEach(info => {
+      if (init.get(info[0]) !== true) {
+        init.set(info[0], true);
+        info[0][info[1]]();
+      }
+    });
+  };
+  document.addEventListener(DCL, upgrade);
+  class HTMLParsedElement extends HTMLElement {
+    static withParsedCallback(Class, name = 'parsed') {
+      const {prototype} = Class;
+      const {connectedCallback} = prototype;
+      const method = name + 'Callback';
+      const cleanUp = (el, observer, ownerDocument, onDCL) => {
+        observer.disconnect();
+        ownerDocument.removeEventListener(DCL, onDCL);
+        parsedCallback(el);
+      };
+      const parsedCallback = el => {
+        if (!queue.length)
+          requestAnimationFrame(upgrade);
+        queue.push([el, method]);
+      };
+      Object.defineProperties(
+        prototype,
+        {
+          connectedCallback: {
+            configurable: true,
+            writable: true,
+            value() {
+              if (connectedCallback)
+                connectedCallback.apply(this, arguments);
+              if (method in this && !init.has(this)) {
+                const self = this;
+                const {ownerDocument} = self;
+                init.set(self, false);
+                if (ownerDocument.readyState === 'complete' || isParsed(self))
+                  parsedCallback(self);
+                else {
+                  const onDCL = () => cleanUp(self, observer, ownerDocument, onDCL);
+                  ownerDocument.addEventListener(DCL, onDCL);
+                  const observer = new MutationObserver(() => {
+                    /* istanbul ignore else */
+                    if (isParsed(self))
+                      cleanUp(self, observer, ownerDocument, onDCL);
+                  });
+                  observer.observe(self.parentNode, {childList: true, subtree: true});
+                }
+              }
+            }
+          },
+          [name]: {
+            configurable: true,
+            get() {
+              return init.get(this) === true;
+            }
+          }
+        }
+      );
+      return Class;
+    }
+  }
+  return HTMLParsedElement.withParsedCallback(HTMLParsedElement);
+})();
+
+const isAsyncFunction = fn => fn.constructor.name === 'AsyncFunction';
+const replace = (that) => {
+    if (that.hasAttribute('level-up')) {
+        that.replaceWith(...that.children);
+    }
+};
+class MElement extends HTMLParsedElement {
+    #config
+    constructor(config = {}) {
+        super();
+        this.#config = config;
+    }
+    connectedCallback() {
+        if (this.parsed && this.#config.oneConnect) return
+        super.connectedCallback();
+    }
+    parsedCallback() {
+        if (this.init) {
+            if (isAsyncFunction(this.init)) {
+                this.init().then (
+                    () => replace(this)
+                );
+            } else {
+                this.init();
+                replace(this);
+            } 
+        }                   
+    }
+}
+
 // Id generator
 const fixedId = ('dry-'+Math.random()).replace('.', '');
 let count = 1;
@@ -41,14 +149,11 @@ function defineCustomElement(templateId) {
     const {refClone, refData, tClass} = setup(templateId);
     //
     customElements.define(templateId,
-        class extends HTMLElement {
+        class extends MElement {
             constructor() {
                 super();
             }
-            connectedCallback() {
-                // Avoid multiple connection when this element is deconnected
-                if (this.connected) return
-                this.connected = true;
+            init() {
                 this.style.display = 'block';
                 if (!this.hasAttribute('class')) this.setAttribute('class', tClass);
                 this.tRefs = structuredClone(refData);
@@ -168,97 +273,13 @@ const handler = {
  */
 var fetch$1 = (input, ...init) => new Proxy(fetch(input, ...init), handler);
 
-/*! (c) Andrea Giammarchi - ISC */
-const HTMLParsedElement = (() => {
-  const DCL = 'DOMContentLoaded';
-  const init = new WeakMap;
-  const queue = [];
-  const isParsed = el => {
-    do {
-      if (el.nextSibling)
-        return true;
-    } while (el = el.parentNode);
-    return false;
-  };
-  const upgrade = () => {
-    queue.splice(0).forEach(info => {
-      if (init.get(info[0]) !== true) {
-        init.set(info[0], true);
-        info[0][info[1]]();
-      }
-    });
-  };
-  document.addEventListener(DCL, upgrade);
-  class HTMLParsedElement extends HTMLElement {
-    static withParsedCallback(Class, name = 'parsed') {
-      const {prototype} = Class;
-      const {connectedCallback} = prototype;
-      const method = name + 'Callback';
-      const cleanUp = (el, observer, ownerDocument, onDCL) => {
-        observer.disconnect();
-        ownerDocument.removeEventListener(DCL, onDCL);
-        parsedCallback(el);
-      };
-      const parsedCallback = el => {
-        if (!queue.length)
-          requestAnimationFrame(upgrade);
-        queue.push([el, method]);
-      };
-      Object.defineProperties(
-        prototype,
-        {
-          connectedCallback: {
-            configurable: true,
-            writable: true,
-            value() {
-              if (connectedCallback)
-                connectedCallback.apply(this, arguments);
-              if (method in this && !init.has(this)) {
-                const self = this;
-                const {ownerDocument} = self;
-                init.set(self, false);
-                if (ownerDocument.readyState === 'complete' || isParsed(self))
-                  parsedCallback(self);
-                else {
-                  const onDCL = () => cleanUp(self, observer, ownerDocument, onDCL);
-                  ownerDocument.addEventListener(DCL, onDCL);
-                  const observer = new MutationObserver(() => {
-                    /* istanbul ignore else */
-                    if (isParsed(self))
-                      cleanUp(self, observer, ownerDocument, onDCL);
-                  });
-                  observer.observe(self.parentNode, {childList: true, subtree: true});
-                }
-              }
-            }
-          },
-          [name]: {
-            configurable: true,
-            get() {
-              return init.get(this) === true;
-            }
-          }
-        }
-      );
-      return Class;
-    }
-  }
-  return HTMLParsedElement.withParsedCallback(HTMLParsedElement);
-})();
-
 customElements.define(
-    'layout-m', class extends HTMLParsedElement {
+    'layout-m', class extends MElement {
         constructor() {
-            super();
+            super({oneConnect:true});
         }
-        parsedCallback() {
-            init(this).then (
-                () => {
-                    if (this.hasAttribute('level-up')) {
-                        this.replaceWith(...this.children);
-                    }
-                }
-            );
+        async init() {
+            await initialize(this);
         }
         set data(d) {
             const tag = this.getAttribute('template');
@@ -285,7 +306,7 @@ function allAttrs(props) {
         ([name, value]) => `t-${name}="${value}"`
     )
 }
-async function init(that) {
+async function initialize(that) {
     const source = that.getAttribute('source');
     if (!source) return
     const data = await getSourceContent(source);
@@ -305,7 +326,7 @@ async function getSourceContent(source) {
         }
     } else {
         try {
-            return fetch$1(source).json()
+            return await fetch$1(source).json()
         } catch (e) {
             return false
         }

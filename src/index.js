@@ -1,19 +1,13 @@
 import {defineCustomElement} from '@titsoft/dry-html'
 import fetch from '@webreflection/fetch'
-import HTMLParsedElement from 'html-parsed-element'
+import MElement from '@titsoft/m-element'
 customElements.define(
-    'layout-m', class extends HTMLParsedElement {
+    'layout-m', class extends MElement {
         constructor() {
-            super()
+            super({oneConnect:true})
         }
-        parsedCallback() {
-            init(this).then (
-                () => {
-                    if (this.hasAttribute('level-up')) {
-                        this.replaceWith(...this.children)
-                    }
-                }
-            )
+        async init() {
+            await initialize(this)
         }
         set data(d) {
             const tag = this.getAttribute('template')
@@ -40,7 +34,7 @@ function allAttrs(props) {
         ([name, value]) => `t-${name}="${value}"`
     )
 }
-async function init(that) {
+async function initialize(that) {
     const source = that.getAttribute('source')
     if (!source) return
     const data = await getSourceContent(source)
@@ -60,7 +54,7 @@ async function getSourceContent(source) {
         }
     } else {
         try {
-            return fetch(source).json()
+            return await fetch(source).json()
         } catch (e) {
             return false
         }

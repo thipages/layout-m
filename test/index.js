@@ -8,7 +8,7 @@ const tests = [
     ['test with embedded json', 'ename1,1,ename2,2'],
     //['test with embedded json + level-up', 'ename1,1,ename2,2']
 ]
-setTimeout(run, 1000)
+setTimeout(run, 500)
 function run() {
     const allObserved = layouts1.map(
         list => [... list.children].map(infoList => {
