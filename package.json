@@ -1,6 +1,6 @@
 {
   "name": "@titsoft/layout-m",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Group template instances",
   "main": "src/index.js",
   "type": "module",
@@ -22,7 +22,7 @@
   "homepage": "https://github.com/thipages/layout-m#readme",
   "dependencies": {
     "@titsoft/dry-html": "^0.5.0",
-    "@titsoft/m-element": "^0.2.0",
+    "@titsoft/m-element": "^0.5.1",
     "@webreflection/fetch": "^0.1.5"
   },
   "devDependencies": {

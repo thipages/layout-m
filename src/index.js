@@ -4,7 +4,7 @@ import MElement from '@titsoft/m-element'
 customElements.define(
     'layout-m', class extends MElement {
         constructor() {
-            super({oneConnect:true})
+            super()
         }
         async init() {
             await initialize(this)

@@ -76,13 +76,13 @@ const HTMLParsedElement = (() => {
   return HTMLParsedElement.withParsedCallback(HTMLParsedElement);
 })();
 
-const isAsyncFunction = fn => fn.constructor.name === 'AsyncFunction';
+const isAsyncFunction$1 = fn => fn.constructor.name === 'AsyncFunction';
 const replace = (that) => {
     if (that.hasAttribute('level-up')) {
         that.replaceWith(...that.children);
     }
 };
-class MElement extends HTMLParsedElement {
+let MElement$1 = class MElement extends HTMLParsedElement {
     #config
     constructor(config = {}) {
         super();
@@ -94,7 +94,7 @@ class MElement extends HTMLParsedElement {
     }
     parsedCallback() {
         if (this.init) {
-            if (isAsyncFunction(this.init)) {
+            if (isAsyncFunction$1(this.init)) {
                 this.init().then (
                     () => replace(this)
                 );
@@ -104,7 +104,7 @@ class MElement extends HTMLParsedElement {
             } 
         }                   
     }
-}
+};
 
 // Id generator
 const fixedId = ('dry-'+Math.random()).replace('.', '');
@@ -149,7 +149,7 @@ function defineCustomElement(templateId) {
     const {refClone, refData, tClass} = setup(templateId);
     //
     customElements.define(templateId,
-        class extends MElement {
+        class extends MElement$1 {
             constructor() {
                 super();
             }
@@ -273,10 +273,60 @@ const handler = {
  */
 var fetch$1 = (input, ...init) => new Proxy(fetch(input, ...init), handler);
 
+const LEVEL_UP = 'level-up';
+const isAsyncFunction = fn => fn.constructor.name === 'AsyncFunction';
+class MElement extends HTMLParsedElement {
+    #config
+    #fragment
+    constructor(config) {
+        super();
+        this.#config = config || {};
+    }
+    #content(remove, textOnly) {
+        const _ = this.#fragment;
+        if (!_) return
+        if (remove) this.#fragment = null;
+        return textOnly ?  _.textContent : _
+    }
+    #finish (that) {
+        if (that.hasAttribute(LEVEL_UP)) {
+            that.replaceWith(...that.children);
+        }
+        that.dispatchEvent(new Event('load'));
+        that.lodaed = true;
+    }
+    originalFragment(remove = true) {
+        return this.#content(remove, false)
+    }
+    originalText(remove = true) {
+        return this.#content(remove, true)
+    }
+    parsedCallback() {
+        const end = () => this.#finish(this);
+        // move childNodes to a fragment
+        this.#fragment = document.createDocumentFragment();
+        this.#fragment.append(...this.childNodes);
+        // add onLoadHtml
+        this.innerHTML = this.#config.onLoadHtml || '';
+        // manage async/sync init function
+        if (this.init) {
+            if (isAsyncFunction(this.init)) {
+                this.init().then(end);
+            } else {
+                this.init();
+                end();
+            } 
+        } else {
+            end();
+        }   
+              
+    }
+}
+
 customElements.define(
     'layout-m', class extends MElement {
         constructor() {
-            super({oneConnect:true});
+            super();
         }
         async init() {
             await initialize(this);
