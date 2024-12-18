@@ -46,7 +46,6 @@ function repath(data, root, keys, tProps) {
     const d = root ? data[root] : data
     const tPropsKeys = Object.keys(tProps)
     const _ = d.map(item => repathItem(item, keys, tPropsKeys, tProps))
-    console.log(d)
     return _
 }
 function repathItem(item, keys, tPropsKeys, tProps) {
@@ -63,7 +62,6 @@ function repathItem(item, keys, tPropsKeys, tProps) {
 }
 const getObjectValueFromPath = (obj, path) => {
     const pathParts = path.split('.')
-    console.log('yu',path)
     let o = obj
     while (pathParts.length && o) {
       o = o[pathParts.shift()]

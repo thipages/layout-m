@@ -22,7 +22,6 @@ function run() {
             ).join(',')
         }).join(',')
     )
-    console.log(allObserved)
     for (const [index, [description, expected]] of tests.entries() ) {
         const isOk = expected === allObserved[index]
         add(index, description, isOk)
