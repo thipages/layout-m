@@ -4,6 +4,7 @@ const layouts1 =  [...document.getElementsByTagName('layout-m')]
 const tests = [
     ['test with json file', 'fname1,1,fname2,2,fname3,3'],
     ['test with offset json file', 'offset1,1,offset2,2,offset3,3'],
+    ['test with custom path of json file', 'fname1,1,fname2,2,fname3,3'],
     ['test with non existing file', ''],
     ['test with text file', ''],
     ['test with embedded json', 'ename1,1,ename2,2'],
@@ -21,6 +22,7 @@ function run() {
             ).join(',')
         }).join(',')
     )
+    console.log(allObserved)
     for (const [index, [description, expected]] of tests.entries() ) {
         const isOk = expected === allObserved[index]
         add(index, description, isOk)

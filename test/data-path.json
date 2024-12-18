@@ -1,0 +1,5 @@
+[
+    {"name": "fname1", "path": {"id": "1"}},
+    {"name": "fname2", "path": {"id": "2"}},
+    {"name": "fname3", "path": {"id": "3"}}
+]

@@ -18,27 +18,41 @@ Templates follow the rules from [@titsoft/dry-html](https://github.com/thipages/
     </div>
   </div>
 </template>
- <!-- Declaration via a template attribute and a (json) source attribute -->
-  <!-- Source can be
-   - an url to be fetched, eg: ./data.json
-   - an id referencing an application/json script, eg: #data
-   -->
+ <!-- Declaration via
+  - a template attribute
+  - a (json) source attribute either
+     - a file or url to be fetched, eg: ./data.json or https://my-api/my-data
+     - an id referencing an application/json script, eg: #data
+  - an optional root attribute which offsets the array
+  - any t-* that needs a non root path
+-->
   <layout-m
     template="a-card"
-    source="#data"
+    source="https://my-api/my-data"
+    root="records"
+    t-id="job.id"
   ></layout-m>
-<script type="application/json" id="data">
-  [
-    {
-      "name": "Leila Sunflower",
-      "job": "Soil Mender"
-    },
-    {
-      "name": "John Green",
-      "job": "Industry Mender"
-    }
-  ]
-</script>
+```
+with such a json input
+```json
+  {
+    "records": [
+      {
+        "name": "Leila Sunflower",
+        "job": {
+          "id": 1,
+          "name": "Soil Mender"
+        }
+      },
+      {
+        "name": "John Green",
+        "job": {
+          "id": 2,
+          "name": "Industry Mender"
+        }
+      }
+    ]
+  }
 ```
 
 ## level-up attribute
