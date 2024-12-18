@@ -37,27 +37,27 @@ function allAttrs(props) {
 async function initialize(that) {
     const source = that.getAttribute('source')
     if (!source) return
-    const data = await getSourceContent(source)
+    const data = await getSourceContent(source, that.getAttribute('root'))
     if (!data) return
     that.data = data
 }
-async function getSourceContent(source) {
+async function getSourceContent(source, root) {
     if (source.substring(0,1) === '#') {
         const el = document.getElementById(source.substring(1))
         if (el) {
             try {
                 const data = JSON.parse(el.textContent)
-                return data
+                return root ? data[root] : data
             } catch (e) {
                 return false
             }
         }
     } else {
         try {
-            return await fetch(source).json()
+            const data = await fetch(source).json()
+            return root ? data[root] : data 
         } catch (e) {
             return false
         }
     }
-
 }

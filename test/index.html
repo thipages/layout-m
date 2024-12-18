@@ -11,6 +11,20 @@
     <script type="module" src="./index.js"></script>
 </head>
 <body>
+    <script type="application/json" id="embedded-offset">
+        {
+            "offset": [
+                {
+                    "id": 1,
+                    "name": "offset1"
+                },
+                {
+                    "id": 2,
+                    "name": "offset2"
+                }
+            ]
+        }
+    </script>
     <script type="application/json" id="embedded-data">
         [
             {
@@ -31,26 +45,47 @@
         <div>{t-name}</div>
         <div>{t-id}</div>
     </template>
+
     <layout-m
         template="info-m"
         source="./data.json"
     ></layout-m>
+
+    <layout-m
+        template="info-m"
+        source="./data-offset.json"
+        root="offset"
+    ></layout-m>
+
     <layout-m
         template="info-m"
         source="./foo.json"
     ></layout-m>
+
     <layout-m
         template="info-m"
         source="./data.txt"
     ></layout-m>
+
     <layout-m
         template="info-m"
         source="#embedded-data"
     ></layout-m>
+
     <layout-m
+        template="info-m"
+        source="#embedded-offset"
+        root="offset"
+    ></layout-m>
+
+    <!--layout-m
         template="info-m"
         source="#embedded-data"
         level-up
-    ></layout-m>
+    ></layout-m-->
+    <!--layout-m
+        template="info-m"
+        source="#embedded-offset"
+    ></layout-m-->
 </body>
 </html>
