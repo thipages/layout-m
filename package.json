@@ -1,6 +1,6 @@
 {
   "name": "@titsoft/layout-m",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Group template instances",
   "main": "src/index.js",
   "type": "module",
